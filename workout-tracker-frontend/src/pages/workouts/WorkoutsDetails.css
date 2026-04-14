@@ -1,0 +1,111 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&display=swap');
+.edit-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.edit-card {
+  background-color: #0F172A;
+  border-radius: 12px;
+  border: 1px solid #334155;
+  padding: 48px 40px;
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.edit-icon {
+  font-size: 50px;
+  color: #3B82F6;
+}
+
+.edit-card h2 {
+  color: #E2E8F0;
+  font-size: 35px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.edit-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.edit-input {
+  width: 100%;
+  background-color: #1E293B;
+  border: 1px solid #3a4f73;
+  border-radius: 8px;
+  padding: 12px 16px;
+  color: #E2E8F0;
+  font-size: 15px;
+  font-family: 'DM Sans', sans-serif;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+}
+
+.edit-input:focus {
+  border-color: #3B82F6;
+}
+
+.edit-input::placeholder {
+  color: #6b7fa3;
+}
+
+.details-delete-button{
+                        background-color: transparent;
+                        border: 1px solid #DC2626;
+                        color: #DC2626;
+                        border-radius: 6px;
+                        padding: 6px 12px;
+                        cursor: pointer;
+                        font-size: 13px
+                      }
+.details-delete-button:hover{
+    transform: scale(1.03);
+}
+
+.exercise-add-button{
+  background-color: #3B82F6;
+  color: #E2E8F0;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 20px;
+  font-weight: 600;
+  font-family: 'DM Sans', sans-serif;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+.exercise-add-button:hover {
+  transform: scale(1.03);
+}
+
+.details-update-button {
+  width: 50%;
+  background-color: #3B82F6;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 13px;
+  font-size: 20px;
+  font-weight: 600;
+  font-family: 'DM Sans', sans-serif;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.details-update-button:hover {
+  background-color: #3a57d4;
+  transform: scale(1.03);
+}
+

@@ -1,0 +1,12 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  margin: 0px;
+  padding: 0px;
+  background-color: #020617;
+}
+#root {
+  min-height: 100vh;
+}
+html {
+  overflow-anchor: none;
+}

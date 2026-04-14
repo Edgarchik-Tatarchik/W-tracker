@@ -1,0 +1,45 @@
+.navbar {
+  position: fixed;
+  width: 180px;
+  top: 0;
+  left: 0;
+    height: 100vh;
+    width: 180px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  background-color: #0F172A;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+.navbar-right {
+  display: flex;
+  flex-direction: column;  /* вместо строки */
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.logo {
+  height: 90px;
+  margin-top: 5%;
+  margin-bottom: -9%;
+  margin-left: 6%;
+}
+
+.logout-button {
+  background-color: #3B82F6;
+  border: none;
+  border-radius: 8px;
+  color: #ffffff;
+  padding: 8px 30px;
+  margin-top: 20px;
+  margin-left: 25px;
+  font-size: 14px;
+  cursor: pointer;
+  
+}
+
+.logout-button:hover {
+  background-color: #7b6bad;
+}

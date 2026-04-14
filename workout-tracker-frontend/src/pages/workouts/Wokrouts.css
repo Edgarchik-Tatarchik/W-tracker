@@ -1,0 +1,169 @@
+.workout-page {
+  margin-left: 180px;
+  padding: 24px;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+.workout-inner-page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.workout-card{
+    background-color: #0F172A;
+    border-radius: 12px;
+    border: 1px solid #334155;
+    padding: 24px;
+    margin-bottom: 32px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+.workout-header-h2{
+    color: #E2E8F0; 
+    margin-bottom: 16px;
+    font-size: 20px 
+}
+.workout-create-form{
+    display: flex; 
+    gap: 10px; 
+    flex-wrap: wrap
+}
+.workout-create-input{
+                flex: 1;
+                  min-width: 150px;
+                  padding: 10px 14px;
+                  background-color: #1E293B;
+                  border: 1px solid #3B82F6;
+                  border-radius: 8px;
+                  color: #64748B;
+                  font-size: 14px;
+                  outline: none;
+                  color-scheme: dark
+}
+.workout-create-button{
+                padding: 10px 24px;
+                background-color: #3B82F6;
+                color: white;
+                border: none;
+                border-radius: 8px;
+                font-size: 14px;
+                font-weight: bold;
+                cursor: pointer
+              
+}
+.workout-create-button:hover{
+    transform: scale(1.03);
+}
+.workout-form{
+    background-color: #0F172A;
+          border-radius: 12px;
+          border: 1px solid #334155;
+          overflow: hidden;
+          box-shadow: 0 4px 20px rgba(0,0,0,0.3)
+}
+.workouts-header{
+            color: #e0e0e0;
+            padding: 20px 24px;
+            margin: 0;
+            font-size: 20px;
+            
+}
+.workout-search-input {
+    width: 25%;
+  background-color: #1E293B;
+  border: 1px solid #64748B;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  padding: 8px 14px;
+  margin-right: 14px;
+  color: #64748B;
+  font-size: 14px;
+  outline: none;
+}
+
+.workout-search-input::placeholder {
+  color: #64748B;
+}
+.workouts-table{
+    width: 100%; border-collapse: collapse 
+    
+    
+}
+.workouts-tr{
+    background-color: #0F172A
+    
+    
+}
+.workouts-th{   
+                    padding: 12px 16px;
+                    color: white;
+                    font-weight: 600;
+                    font-size: 14px;
+                    text-align: "left"     
+}
+.workout-delete-button{
+                        background-color: transparent;
+                        border: 1px solid #DC2626;
+                        color: #DC2626;
+                        border-radius: 6px;
+                        padding: 6px 12px;
+                        cursor: pointer;
+                        font-size: 13px
+                      }
+.workout-delete-button:hover{
+    transform: scale(1.03);
+}
+.workout-edit-button{
+                        background-color: transparent;
+                        border: 1px solid grey;
+                        color: #E2E8F0;
+                        border-radius: 6px;
+                        padding: 6px 12px;
+                        cursor: pointer;
+                        font-size: 13px
+                      }
+.workout-edit-button:hover{
+    transform: scale(1.03);
+}
+.workout-details-button{
+                        background-color: transparent;
+                        border: 1px solid #22C55E;
+                        color: #E2E8F0;
+                        border-radius: 6px;
+                        padding: 6px 12px;
+                        cursor: pointer;
+                        font-size: 13px
+                      }
+.workout-details-button:hover{
+    transform: scale(1.03);
+}
+.workouts-empty
+    { color: #a0a0b0; text-align: center; padding: 32px }
+
+.workout-error-text {
+    color: #ff6b6b;
+    font-size: 14px;
+    text-align: center;
+}
+.exercise-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.add-exercise-button {
+  background-color: #1E293B;
+  color: #64748B;
+  border: 1px dashed #3B82F6;
+  border-radius: 12px;
+  margin-top: 40px;
+  padding: 8px;
+  width: 100%;
+  cursor: pointer;
+}
+.workout-success-text {
+    color: #4caf50;
+    font-size: 14px;
+    text-align: center;
+    margin-top: 8px;
+}

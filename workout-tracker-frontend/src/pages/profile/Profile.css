@@ -1,0 +1,143 @@
+.profile-page {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile-card {
+    display: flex;
+    justify-content: center;
+    background-color: #0F172A;
+    border-radius: 12px;
+    border: 1px solid #334155;
+    padding: 40px;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    min-width: 360px;
+}
+
+.profile-card h1 {
+    color: white;
+    font-size: 35px;
+    margin: 0;
+}
+
+.profile-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+}
+
+.profile-form p {
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0;
+    gap: 12px;
+}
+.profile-icon{
+    width: 100px;
+}
+
+.profile-value {
+    color: grey;
+    font-weight: 500;
+    flex: 1;
+    margin-left: 4px;
+}
+
+.profile-input {
+    background-color: #3d4f6b;
+    color: white;
+    border-radius: 20px;
+    border: none;
+    padding: 12px 16px;
+    width: 100%;
+    box-sizing: border-box;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.profile-edit-button {
+    background-color: transparent;
+    color: grey;
+    border: 1px solid grey;
+    border-radius: 10px;
+    padding: 4px 12px;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.profile-edit-button:hover {
+    transform: scale(1.05);
+}
+
+.update-password-button {
+    background-color: #3B82F6;
+    color: white;
+    border-radius: 12px;
+    border: none;
+    padding: 10px;
+    width: 100%;
+    cursor: pointer;
+}
+
+.update-password-button:hover {
+    transform: scale(1.03);
+}
+
+.profile-update-button {
+    background-color: #3B82F6;
+    color: white;
+    font-size: 18px;
+    font-weight: lighter;
+    border-radius: 16px;
+    border: none;
+    width: 100%;
+    margin-top: 10px;
+    padding: 15px;
+    cursor: pointer;
+}
+
+.profile-update-button:hover {
+    transform: scale(1.03);
+}
+.back-button {
+    background-color: #1E293B;
+    color: white;
+    font-size: 18px;
+    font-weight: lighter;
+    border-radius: 16px;
+    border: none;
+    width: 100%;
+    margin-top: 10px;
+    padding: 15px;
+    cursor: pointer;
+}
+
+.back-button:hover {
+    transform: scale(1.03);
+}
+.delete-account-button {
+    background-color: transparent;
+    color: #DC2626;
+    border: 1px solid #DC2626;
+    border-radius: 12px;
+    padding: 10px;
+    width: 100%;
+    cursor: pointer;
+    margin-top: 8px;
+}
+.delete-account-button:hover {
+    background-color: #DC2626;
+    color: white;
+}
+
+.success-text {
+    color: #6fcf97;
+    font-size: 14px;
+    text-align: center;
+}
