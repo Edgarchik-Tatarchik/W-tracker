@@ -33,6 +33,14 @@ Most fitness apps are either too complex or too simple. Workout Tracker fills th
 
 ---
 
+## 📸 Screenshots
+
+![Workouts](screenshots/dashboard.png)
+![Statistics 1](screenshots/stats.png)
+![Statistics 2](screenshots/recs.png)
+![Workout details 1](screenshots/details.png)
+
+
 ## 🚀 Getting Started
 
 ### Prerequisites
