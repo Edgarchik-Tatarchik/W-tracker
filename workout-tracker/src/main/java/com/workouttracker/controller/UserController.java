@@ -1,5 +1,6 @@
 package com.workouttracker.controller;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -60,14 +61,14 @@ public class UserController {
     }
 
     @DeleteMapping("/me")
-    public void deleteUserProfile(HttpServletResponse response) {
+    public ResponseEntity<Void> deleteUserProfile(HttpServletResponse response) {
         User currentUser = getCurrentUser();
         userService.deleteById(currentUser.getId());
-
         Cookie cookie = new Cookie("access_token", "");
         cookie.setMaxAge(0);
         cookie.setPath("/");
         cookie.setHttpOnly(true);
         response.addCookie(cookie);
+        return ResponseEntity.noContent().build();
     }
 }
