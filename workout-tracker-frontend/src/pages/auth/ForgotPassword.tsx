@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import "./ForgotPassword.css"
+import { apiFetchText } from "../../lib/api"
 
 
 function ForgotPassword() {
@@ -9,33 +10,19 @@ function ForgotPassword() {
   const [message, setMessage] = useState("")
 
   async function handleSubmit() {
-    try{
-    const API = import.meta.env.VITE_API_URL
-    const res = await fetch(`${API}/auth/forgot-password`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ email })
-    });
-
-    if (!res.ok) {
-        setMessage("Something went wrong");
-        return;
-      }
-
-      const token = await res.text();
-      console.log("TOKEN:", JSON.stringify(token)); 
+    try {
+      const token = await apiFetchText("/auth/forgot-password", {
+        method: "POST",
+        body: { email },
+      })
+      console.log("TOKEN:", JSON.stringify(token))
       if (!token) {
-        setMessage("No token received");
-        return;
+        setMessage("No token received")
+        return
       }
-
-      
-      navigate(`/reset-password?token=${token}`);
-
-    } catch (err) {
-      setMessage("Network error");
+      navigate(`/reset-password?token=${token}`)
+    } catch {
+      setMessage("Something went wrong")
     }
   }
   async function handleCancel() {

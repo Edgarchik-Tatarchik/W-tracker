@@ -1,6 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom"
 import { useState, useEffect } from "react"
 import "./WorkoutsDetails.css"
+import { apiFetch } from "../../lib/api"
 
 type Exercise = {
   id: number  
@@ -32,76 +33,45 @@ export default function WorkoutDetails() {
   const [newExercise, setNewExercise] = useState({ name: "", sets: "", reps: "", weight: "" })
   const [exerciseNames, setExerciseNames] = useState<string[]>([])
   const [previousData, setPreviousData] = useState<Record<string, PreviousExercise>>({})
-  const API = import.meta.env.VITE_API_URL
   useEffect(() => {
-    fetch(`${API}/workouts/${id}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-    })
-      .then(res => res.json())
-      .then(data => setWorkout(data))
-      fetch(`${API}/exercises/my`,
-     { credentials: "include", headers: { "Content-Type": "application/json" } })
-    .then(res => res.json())
-    .then(data => setExerciseNames(data))
+    apiFetch<WorkoutDetail>(`/workouts/${id}`).then(data => setWorkout(data))
+    apiFetch<string[]>("/exercises/my").then(data => setExerciseNames(data))
   }, [])
 
   useEffect(() => {
-  if (!workout?.exercises?.length) return
-  workout.exercises.forEach(ex => {
-    const API = import.meta.env.VITE_API_URL
-    fetch(`${API}/exercises/previous?name=${encodeURIComponent(ex.name)}`, {
-      credentials: "include"
+    if (!workout?.exercises?.length) return
+    workout.exercises.forEach(ex => {
+      apiFetch<PreviousExercise | null>(`/exercises/previous?name=${encodeURIComponent(ex.name)}`)
+        .then(data => {
+          if (data) setPreviousData(prev => ({ ...prev, [ex.name]: data }))
+        })
+        .catch(() => {})
     })
-    .then(res => res.status === 204 ? null : res.json())
-    .then(data => {
-      if (data) {
-        setPreviousData(prev => ({ ...prev, [ex.name]: data }))
-      }
-    })
-  })
-}, [workout])
+  }, [workout])
 
   if (!workout) return <div className="edit-page"><p>Loading...</p></div>
  
 async function addExercise() {
   if (!newExercise.name.trim()) return
-  const API = import.meta.env.VITE_API_URL
-  const response = await fetch(`${API}/workouts/${id}/exercises`, {
+  await apiFetch(`/workouts/${id}/exercises`, {
     method: "POST",
-    credentials: "include",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
+    body: {
       name: newExercise.name,
       sets: Number(newExercise.sets),
       reps: Number(newExercise.reps),
-      weight: Number(newExercise.weight)
-    })
+      weight: Number(newExercise.weight),
+    },
   })
-  if (response.ok) {
-    const API = import.meta.env.VITE_API_URL
-    const data = await fetch(`${API}/workouts/${id}`, {
-      credentials: "include",
-      headers: { "Content-Type": "application/json" }
-    }).then(r => r.json())
-    setWorkout(data)
-    setNewExercise({ name: "", sets: "", reps: "", weight: "" })
-  }
+  const data = await apiFetch<WorkoutDetail>(`/workouts/${id}`)
+  setWorkout(data)
+  setNewExercise({ name: "", sets: "", reps: "", weight: "" })
 }  
 
 async function deleteExercise(exerciseId: number) {
-  const API = import.meta.env.VITE_API_URL
-  await fetch(`${API}/workouts/${id}/exercises/${exerciseId}`, {
-    method: "DELETE",
-    credentials: "include",
-    headers: { "Content-Type": "application/json" }
-  })
+  await apiFetch(`/workouts/${id}/exercises/${exerciseId}`, { method: "DELETE" })
   setWorkout({
     ...workout!,
-    exercises: workout!.exercises.filter(ex => ex.id !== exerciseId)
+    exercises: workout!.exercises.filter(ex => ex.id !== exerciseId),
   })
 }
   return (

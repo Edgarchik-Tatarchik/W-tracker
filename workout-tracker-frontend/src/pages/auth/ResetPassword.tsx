@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import "./ResetPassword.css"
+import { apiFetch } from "../../lib/api"
 
 function ResetPassword() {
   const [password, setPassword] = useState("")
@@ -21,22 +22,14 @@ function ResetPassword() {
       setError("Passwords do not match")
       return
     }
-    const API = import.meta.env.VITE_API_URL
-    const res = await fetch(`${API}/auth/reset-password`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        token,
-        newPassword: password
+    try {
+      await apiFetch("/auth/reset-password", {
+        method: "POST",
+        body: { token, newPassword: password },
       })
-    })
-
-    if (res.ok) {
       alert("Password changed")
       navigate("/login")
-    } else {
+    } catch {
       setError("Invalid or expired token")
     }
   }

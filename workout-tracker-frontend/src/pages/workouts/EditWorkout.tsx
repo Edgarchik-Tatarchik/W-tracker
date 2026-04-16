@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./EditWorkout.css"
+import { apiFetch } from "../../lib/api"
 
 
 
@@ -13,35 +14,22 @@ export default function EditWorkout() {
     const [notes, setNotes] = useState("")
     const navigate = useNavigate()
     useEffect(() => {
-    const API = import.meta.env.VITE_API_URL
-    fetch(`${API}/workouts/${id}`,{
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer " + localStorage.getItem("token")
-          }
-        })
-        .then(res => res.json())
-    .then(data => {setName(data.name)
+    apiFetch<{ name: string; length: string; date: string; notes: string }>(`/workouts/${id}`)
+      .then(data => {
+        setName(data.name)
         setLength(data.length)
         setDate(data.date)
         setNotes(data.notes)
-    })
-    
+      })
   }, [])
 
   async function updateWorkout() {
-    const API = import.meta.env.VITE_API_URL
-    fetch(`${API}/workouts/${id}`, {
+    await apiFetch(`/workouts/${id}`, {
       method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify({ name, length, date, notes })
+      body: { name, length, date, notes },
     })
     navigate('/workouts')
-}
+  }
 
 return(
     <div className="edit-page">

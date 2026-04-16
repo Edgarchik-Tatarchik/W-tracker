@@ -2,6 +2,7 @@ import { useEffect, useState,} from "react";
 import "./Wokrouts.css"
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar"
+import { apiFetch, ApiError } from "../../lib/api"
 
 type Exercise = {
   name: string
@@ -31,22 +32,9 @@ export default function Workouts(){
   const [search, setSearch] = useState("")
   const [exercises, setExercises] = useState<Exercise[]>([])
   const [exerciseNames, setExerciseNames] = useState<string[]>([])
-  const API = import.meta.env.VITE_API_URL
   useEffect(() => {
-    
-    fetch(`${API}/workouts`,{
-      method: "GET",
-      credentials: "include",
-       headers: {
-    "Content-Type": "application/json",
-  },
-    })
-    .then(res => res.json())
-    .then(data => setWorkouts(data))
-    fetch(`${API}/exercises/my`,
-    { credentials: "include", headers: { "Content-Type": "application/json" } })
-    .then(res => res.json())
-    .then(data => setExerciseNames(data))
+    apiFetch<Workout[]>("/workouts").then(data => setWorkouts(data))
+    apiFetch<string[]>("/exercises/my").then(data => setExerciseNames(data))
   }, [])
 
   async function createWorkout()
@@ -69,49 +57,33 @@ if (invalidExercise) {
   setErrorMessage("Fill in all exercise names!")
   return
 } 
-    const API = import.meta.env.VITE_API_URL
-    const response = await fetch(`${API}/workouts`,{
-  method: "POST",
-  credentials: "include",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({ name, length, date: date.replaceAll("/", "-"), notes, exercises: exercises.map(ex => ({
-    ...ex,
-    sets: Number(ex.sets),
-    reps: Number(ex.reps),
-    weight: Number(ex.weight)
-  }))
- })
-})
-    
-    if (!response.ok) {
-      const data = await response.json()
-      console.log(data)
-      setErrorMessage(data.error)
-      }
-    else{
-      const data = await response.json()
-      console.log(data)
-  setWorkouts([...workouts, data])
-  setSuccessMessage("✅ Workout created!")
-  setTimeout(() => setSuccessMessage(""), 3000)
-  setErrorMessage("")
+    try {
+      const data = await apiFetch<Workout>("/workouts", {
+        method: "POST",
+        body: {
+          name, length, date: date.replaceAll("/", "-"), notes,
+          exercises: exercises.map(ex => ({
+            ...ex,
+            sets: Number(ex.sets),
+            reps: Number(ex.reps),
+            weight: Number(ex.weight),
+          })),
+        },
+      })
+      setWorkouts([...workouts, data])
+      setSuccessMessage("✅ Workout created!")
+      setTimeout(() => setSuccessMessage(""), 3000)
+      setErrorMessage("")
+    } catch (error) {
+      if (error instanceof ApiError) setErrorMessage(error.message)
     }
   }
   function editWorkout(id: number){
     navigate(`/workouts/${id}/edit`)
   }
-  async function deleteWorkout(id:number) {
-    const API = import.meta.env.VITE_API_URL
-    const res = await fetch(`${API}/workouts/${id}`, {
-      method: "DELETE",
-    credentials: "include",
-     headers: {
-    "Content-Type": "application/json",
-  },
-    })
-    if (res.ok) {
-      setWorkouts(workouts.filter(w => w.id !== id))
-    }
+  async function deleteWorkout(id: number) {
+    await apiFetch(`/workouts/${id}`, { method: "DELETE" })
+    setWorkouts(workouts.filter(w => w.id !== id))
     setName("")
     setLength("")
     setDate("")

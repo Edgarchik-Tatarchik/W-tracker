@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./Register.css"
 import { useNavigate, Link } from "react-router-dom";
+import { apiFetch, ApiError } from "../../lib/api";
 
 
 function Register(){
@@ -39,44 +40,21 @@ async function handleRegister(e: React.FormEvent) {
     setLoading(true)
 
   try {
-    const API = import.meta.env.VITE_API_URL
-    const response = await fetch(`${API}/auth/register`, {
+    await apiFetch("/auth/register", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        name: trimmedUsername,
-        email: trimmedEmail,
-        password: password
-      })
+      body: { name: trimmedUsername, email: trimmedEmail, password },
     })
-
-    if (!response.ok) {
-  const data = await response.json()
-
-  if (data.email) {
-    setErrorMessage(data.email)
-  } else if (data.password) {
-    setErrorMessage(data.password)
-  } else if (data.name) {
-    setErrorMessage(data.name)
-  } else if (data.error) {
-    setErrorMessage(data.error)
-  } else {
-    setErrorMessage("Registration failed")
-  }
-      return
-    }
-
     setErrorMessage("")
     navigate("/login")
   } catch (error) {
-    setErrorMessage("Server error. Try again.")
+    if (error instanceof ApiError) {
+      setErrorMessage(error.message)
+    } else {
+      setErrorMessage("Server error. Try again.")
+    }
+  } finally {
+    setLoading(false)
   }
-  finally {
-  setLoading(false)
-}
 }
   return (
     <div className="register-page">

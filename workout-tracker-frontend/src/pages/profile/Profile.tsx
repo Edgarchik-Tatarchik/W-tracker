@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import "./Profile.css"
+import { apiFetch } from "../../lib/api"
 
 
 function Profile() {
@@ -17,51 +18,31 @@ function Profile() {
   const [isShowEditPass, setIsShowEditPass] = useState(false)
 
   useEffect(() => {
-    const API = import.meta.env.VITE_API_URL
-    fetch(`${API}/users/me`,{
-      method: "GET",
-      credentials: "include",
-       headers: {
-    "Content-Type": "application/json",
-  },
+    apiFetch<{ name: string; email: string }>("/users/me")
+      .then(data => {
+        setName(data.name)
+        setEmail(data.email)
+        setIsLoading(false)
       })
-      .then(res => {
-          if (!res.ok) {
-            navigate("/login")
-          return
-      }
-      return res.json()
-    })
-    .then(data => {setName(data.name)
-      setEmail(data.email)
-      setIsLoading(false)
-    })
+      .catch(() => navigate("/login"))
   }, [])
   
   async function updateProfile() {
-    const API = import.meta.env.VITE_API_URL
-    const response = await fetch(`${API}/users/me`, {
-      method: "PUT",
-      credentials: "include",
-       headers: {
-    "Content-Type": "application/json",
-  },
-      body: JSON.stringify({ name, email})
-    })
-    if (!response.ok) {
-  const err = await response.json()
-  console.log(err)
-  alert("Update failed")
-  return
-}
-const data = await response.json()
-setName(data.name)
-setEmail(data.email)
-    setSuccessMessage("Profile updated!")
-    setTimeout(() => setSuccessMessage(""), 3000)
-    setIsShowEditName(false)
-    setIsShowEditEmail(false)
-}
+    try {
+      const data = await apiFetch<{ name: string; email: string }>("/users/me", {
+        method: "PUT",
+        body: { name, email },
+      })
+      setName(data.name)
+      setEmail(data.email)
+      setSuccessMessage("Profile updated!")
+      setTimeout(() => setSuccessMessage(""), 3000)
+      setIsShowEditName(false)
+      setIsShowEditEmail(false)
+    } catch {
+      alert("Update failed")
+    }
+  }
 
 async function updatePassword(){
   if (newPass == "" || checkNewPass == "") {
@@ -76,19 +57,12 @@ async function updatePassword(){
     alert("This password is already in use. Try diffrent one!")
     return
     }
-    const API = import.meta.env.VITE_API_URL
-    const response = await fetch(`${API}/users/me/password`, {
-    method: "PUT",
-    credentials: "include",
-     headers: {
-    "Content-Type": "application/json",
-  },
-    body: JSON.stringify({ currentPassword: currentPass, newPassword: newPass, checkPassword: checkNewPass})
-  })
-  setSuccessMessage("Password changed!")
-  setTimeout(() => setSuccessMessage(""), 3000)
-  const data = await response.json()
-  console.log(data)
+    await apiFetch("/users/me/password", {
+      method: "PUT",
+      body: { currentPassword: currentPass, newPassword: newPass, checkPassword: checkNewPass },
+    })
+    setSuccessMessage("Password changed!")
+    setTimeout(() => setSuccessMessage(""), 3000)
 }
 
   if (isLoading) {
@@ -96,18 +70,13 @@ async function updatePassword(){
 }
 async function deleteAccount() {
     if (!confirm("Are you sure? This action cannot be undone.")) return
-    const API = import.meta.env.VITE_API_URL
-    const res = await fetch(`${API}/users/me`, {
-        method: "DELETE",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" }
-    })
-    if (res.ok) {
-        navigate("/login")
-    } else {
-        alert("Failed to delete account. Try again.")
+    try {
+      await apiFetch("/users/me", { method: "DELETE" })
+      navigate("/login")
+    } catch {
+      alert("Failed to delete account. Try again.")
     }
-}
+  }
   return ( 
     <div className="profile-page">
       <div className="profile-card">

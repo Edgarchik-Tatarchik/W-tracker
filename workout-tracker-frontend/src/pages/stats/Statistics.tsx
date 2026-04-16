@@ -2,6 +2,7 @@ import { useState, useEffect } from "react"
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts"
 import Navbar from "../components/Navbar"
 import "./Statistics.css"
+import { apiFetch } from "../../lib/api"
 
 type StatPoint = {
   date: string
@@ -26,29 +27,14 @@ export default function Statistics() {
   const [stats, setStats] = useState<StatPoint[]>([])
   const [period, setPeriod] = useState<"week" | "month" | "all">("all")
   const [progression, setProgression] = useState<ProgressionDto[]>([])
-  const API = import.meta.env.VITE_API_URL
   useEffect(() => {
-    fetch(`${API}/exercises/my`, {
-      credentials: "include",
-      headers: { "Content-Type": "application/json" }
-    })
-      .then(r => r.json())
-      .then(data => setExerciseNames(data))
-    fetch(`${API}/exercises/progression`, {
-    credentials: "include"
-  })
-    .then(r => r.json())
-    .then(data => setProgression(data))
+    apiFetch<string[]>("/exercises/my").then(data => setExerciseNames(data))
+    apiFetch<ProgressionDto[]>("/exercises/progression").then(data => setProgression(data))
   }, [])
 
   useEffect(() => {
     if (!selectedExercise) return
-    const API = import.meta.env.VITE_API_URL
-    fetch(`${API}/exercises/stats?name=${encodeURIComponent(selectedExercise)}`,{
-      credentials: "include",
-      headers: { "Content-Type": "application/json" }
-    })
-      .then(r => r.json())
+    apiFetch<StatPoint[]>(`/exercises/stats?name=${encodeURIComponent(selectedExercise)}`)
       .then(data => setStats(data))
   }, [selectedExercise])
 

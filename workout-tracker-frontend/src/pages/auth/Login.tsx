@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import "./Login.css";
+import { apiFetch, ApiError } from "../../lib/api";
 
 function Login() {
   const navigate = useNavigate();
@@ -31,44 +32,17 @@ function Login() {
     setLoading(true);
 
     try {
-      const API = import.meta.env.VITE_API_URL
-      const response = await fetch(`${API}/auth/login`, {
+      await apiFetch("/auth/login", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        credentials: "include",
-        body: JSON.stringify({
-          email: trimmedEmail,
-          password
-        })
+        body: { email: trimmedEmail, password },
       });
-
-      if (!response.ok) {
-  let data;
-
-  try {
-    data = await response.json();
-  } catch {
-    setErrorMessage("Login failed");
-    return;
-  }
-
-  if (data.email) {
-    setErrorMessage(data.email);
-  } else if (data.password) {
-    setErrorMessage(data.password);
-  } else if (data.error) {
-    setErrorMessage(data.error);
-  } else {
-    setErrorMessage("Login failed");
-  }
-  return;
-}
-
       navigate("/workouts");
     } catch (error) {
-      setErrorMessage("Server error. Try again.");
+      if (error instanceof ApiError) {
+        setErrorMessage(error.message);
+      } else {
+        setErrorMessage("Server error. Try again.");
+      }
     } finally {
       setLoading(false);
     }
