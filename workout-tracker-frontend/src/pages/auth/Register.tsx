@@ -48,7 +48,11 @@ async function handleRegister(e: React.FormEvent) {
     navigate("/login")
   } catch (error) {
     if (error instanceof ApiError) {
-      setErrorMessage("This email is already registered.")
+      if (error.status === 409) {
+        setErrorMessage("This email is already registered.")
+      } else {
+        setErrorMessage(error.message)
+      }
     } else {
       setErrorMessage("Server error. Try again.")
     }
