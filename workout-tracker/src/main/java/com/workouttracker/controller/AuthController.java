@@ -40,13 +40,23 @@ public class AuthController {
 	
 	@PostMapping("/register")
 	public ResponseEntity<?> register(@Valid @RequestBody RegisterRequest request) {
-		request.setEmail(request.getEmail().trim().toLowerCase());
+	    request.setEmail(request.getEmail().trim().toLowerCase());
 	    request.setName(request.getName().trim());
-		if(userService.findByEmail(request.getEmail()).isPresent()) {
-			return ResponseEntity.status(409).body("This email is already exist");
-		}
-	    userService.createUser(request);
-	    return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("message", "User has been created"));
+	    if(userService.findByEmail(request.getEmail()).isPresent()) {
+	        return ResponseEntity.status(409).body(Map.of("error", "This email is already exist"));
+	    }
+	    User user = userService.createUser(request);
+	    String token = jwtUtil.generateToken(user.getId());
+	    ResponseCookie cookie = ResponseCookie.from("access_token", token)
+	        .httpOnly(true)
+	        .secure(false)
+	        .sameSite("Lax")
+	        .path("/")
+	        .maxAge(Duration.ofHours(1))
+	        .build();
+	    return ResponseEntity.status(HttpStatus.CREATED)
+	        .header(HttpHeaders.SET_COOKIE, cookie.toString())
+	        .body(Map.of("message", "User has been created"));
 	}
 	
 	@PostMapping("/login")

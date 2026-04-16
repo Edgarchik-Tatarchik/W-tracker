@@ -115,7 +115,7 @@ async function handleRegister(e: React.FormEvent) {
 
         <br />
 
-        <Link to="/login" className="link">
+        <Link to="/workouts" className="link">
   Already have an account? Login
         </Link>
       </div>
