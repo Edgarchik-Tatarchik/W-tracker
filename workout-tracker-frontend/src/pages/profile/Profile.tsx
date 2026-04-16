@@ -97,12 +97,16 @@ async function updatePassword(){
 async function deleteAccount() {
     if (!confirm("Are you sure? This action cannot be undone.")) return
     const API = import.meta.env.VITE_API_URL
-    await fetch(`${API}/users/me`, {
+    const res = await fetch(`${API}/users/me`, {
         method: "DELETE",
         credentials: "include",
         headers: { "Content-Type": "application/json" }
     })
-    navigate("/login")
+    if (res.ok) {
+        navigate("/login")
+    } else {
+        alert("Failed to delete account. Try again.")
+    }
 }
   return ( 
     <div className="profile-page">

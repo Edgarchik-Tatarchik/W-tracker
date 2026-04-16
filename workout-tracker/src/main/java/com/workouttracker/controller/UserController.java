@@ -13,6 +13,8 @@ import com.workouttracker.dto.UserRequest;
 import com.workouttracker.entity.User;
 import com.workouttracker.service.UserService;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
@@ -58,8 +60,14 @@ public class UserController {
     }
 
     @DeleteMapping("/me")
-    public void deleteUserProfile() {
+    public void deleteUserProfile(HttpServletResponse response) {
         User currentUser = getCurrentUser();
         userService.deleteById(currentUser.getId());
+
+        Cookie cookie = new Cookie("access_token", "");
+        cookie.setMaxAge(0);
+        cookie.setPath("/");
+        cookie.setHttpOnly(true);
+        response.addCookie(cookie);
     }
 }
