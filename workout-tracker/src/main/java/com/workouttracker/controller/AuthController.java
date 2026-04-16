@@ -46,7 +46,7 @@ public class AuthController {
 			return ResponseEntity.status(409).body("This email is already exist");
 		}
 	    userService.createUser(request);
-	    return ResponseEntity.status(HttpStatus.CREATED).body("User has been created");
+	    return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("message", "User has been created"));
 	}
 	
 	@PostMapping("/login")
