@@ -3,6 +3,7 @@ package com.workouttracker.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,8 +46,9 @@ public class WorkoutController {
     }
     
     @PostMapping("/{workoutId}/exercises")
-    public void addExercise(@PathVariable long workoutId, @RequestBody ExerciseDto dto) {
+    public ResponseEntity<Void> addExercise(@PathVariable long workoutId, @RequestBody ExerciseDto dto) {
         workoutService.addExercise(workoutId, dto, getCurrentUser());
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping
@@ -65,12 +67,14 @@ public class WorkoutController {
     }
     
     @DeleteMapping("/{id}")
-    public void deleteWorkout(@PathVariable long id) {
+    public ResponseEntity<Void> deleteWorkout(@PathVariable long id) {
         workoutService.deleteById(id, getCurrentUser());
+        return ResponseEntity.noContent().build();
     }
-    
+
     @DeleteMapping("/{workoutId}/exercises/{exerciseId}")
-    public void deleteExercise(@PathVariable long workoutId, @PathVariable long exerciseId) {
+    public ResponseEntity<Void> deleteExercise(@PathVariable long workoutId, @PathVariable long exerciseId) {
         workoutService.deleteExercise(workoutId, exerciseId, getCurrentUser());
+        return ResponseEntity.noContent().build();
     }
 }
