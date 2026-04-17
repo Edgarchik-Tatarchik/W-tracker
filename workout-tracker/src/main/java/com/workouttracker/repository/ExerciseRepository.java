@@ -17,4 +17,6 @@ public interface ExerciseRepository extends JpaRepository<Exercise, Long> {
 	List<Exercise> findByUserAndName(@Param("user") User user, @Param("name") String name);
 	@Query("SELECT e FROM Exercise e WHERE e.workout.user = :user AND e.name = :name ORDER BY e.workout.date DESC")
 	List<Exercise> findLastByUserAndName(@Param("user") User user, @Param("name") String name, Pageable pageable);
+	@Query("SELECT MAX(e.weight) FROM Exercise e WHERE e.workout.user = :user AND LOWER(e.name) = LOWER(:name)")
+	Double findMaxWeightByUserAndName(@Param("user") User user, @Param("name") String name);
 }

@@ -2,6 +2,7 @@ package com.workouttracker.controller;
 
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,5 +63,22 @@ public class ExerciseController {
 		ExerciseDto dto = exerciseService.getPrevious(name, user);
 		if(dto==null) return ResponseEntity.noContent().build();
 		return ResponseEntity.ok(dto);
+	}
+	@GetMapping("/pr")
+	public ResponseEntity<?>getPR(@RequestParam String name){
+		Double maxWeight = exerciseRepository.findMaxWeightByUserAndName(getCurrentUser(), name);
+		if(maxWeight == null) return ResponseEntity.noContent().build();
+		return ResponseEntity.ok(Map.of("maxWeight", maxWeight));
+	}
+	@GetMapping("/history")
+	public List<ExerciseStatPoint>getHistory(@RequestParam String name){
+		User user = getCurrentUser();
+		List<Exercise> exercises = exerciseRepository.findByUserAndName(user, name);
+		return exercises.stream().map(e -> new ExerciseStatPoint(
+				e.getWorkout().getDate().toString(),
+				e.getSets(),
+				e.getReps(),
+				e.getWeight()
+				)).collect(Collectors.toList());
 	}
 }
