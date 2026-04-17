@@ -46,7 +46,7 @@ public class AuthController {
 	        return ResponseEntity.status(409).body(Map.of("error", "This email is already exist"));
 	    }
 	    User user = userService.createUser(request);
-	    String token = jwtUtil.generateToken(user.getId());
+	    String token = jwtUtil.generateToken(user.getId(),user.getRoles());
 	    ResponseCookie cookie = ResponseCookie.from("access_token", token)
 	        .httpOnly(true)
 	        .secure(true)
@@ -70,7 +70,7 @@ public class AuthController {
 	                .body(Map.of("error", "Wrong email or password"));
 	    }
 
-	    String token = jwtUtil.generateToken(user.getId());
+	    String token = jwtUtil.generateToken(user.getId(),user.getRoles());
 
 	    ResponseCookie cookie = ResponseCookie.from("access_token", token)
 	            .httpOnly(true)

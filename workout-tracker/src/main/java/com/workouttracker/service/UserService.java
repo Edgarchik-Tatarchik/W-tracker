@@ -47,6 +47,7 @@ public class UserService {
         user.setName(request.getName().trim());
         user.setEmail(request.getEmail().trim().toLowerCase());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setRoles(List.of("ROLE_USER"));
         return userRepository.save(user);
     }
     
