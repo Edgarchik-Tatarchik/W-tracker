@@ -49,8 +49,8 @@ public class AuthController {
 	    String token = jwtUtil.generateToken(user.getId());
 	    ResponseCookie cookie = ResponseCookie.from("access_token", token)
 	        .httpOnly(true)
-	        .secure(false)
-	        .sameSite("Lax")
+	        .secure(true)
+	        .sameSite("None")
 	        .path("/")
 	        .maxAge(Duration.ofHours(1))
 	        .build();
