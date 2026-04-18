@@ -102,7 +102,6 @@ workout-tracker/
 - [ ] Workout templates
 - [ ] Mobile app (React Native)
 - [ ] Social features — share workouts
-- [ ] Deploy to cloud (Oracle Cloud / Railway)
 
 ---
 
