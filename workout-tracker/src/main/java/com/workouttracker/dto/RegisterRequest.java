@@ -1,12 +1,16 @@
 package com.workouttracker.dto;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 public class RegisterRequest {
 
     @NotBlank(message = "Name is required")
     @Size(min = 2, max = 30, message = "Name must be between 2 and 30 characters")
+    @Pattern(regexp = "^[A-Za-zА-Яа-я0-9 ]+$", message = "Name contains invalid characters")
     private String name;
 
     @NotBlank(message = "Email is required")
@@ -14,7 +18,8 @@ public class RegisterRequest {
     private String email;
 
     @NotBlank(message = "Password is required")
-    @Size(min = 6, max = 100, message = "Password must be at least 6 characters")
+    @Size(min = 8, max = 100, message = "Password must be at least 6 characters")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     public String getName() {
@@ -22,7 +27,9 @@ public class RegisterRequest {
     }
 
     public void setName(String name) {
-        this.name = name;
+    	if (name != null) {
+            this.name = name.trim();
+        }
     }
 
     public String getEmail() {
@@ -30,7 +37,9 @@ public class RegisterRequest {
     }
 
     public void setEmail(String email) {
-        this.email = email;
+    	if (email != null) {
+            this.email = email.trim().toLowerCase();
+        }
     }
 
     public String getPassword() {
