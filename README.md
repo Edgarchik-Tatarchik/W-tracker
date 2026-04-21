@@ -2,6 +2,7 @@
 
 A full-stack fitness web application for logging workouts, tracking exercise progression, and visualizing training statistics.
 
+
 ---
 
 ## 🎯 Purpose
@@ -31,11 +32,22 @@ Most fitness apps are either too complex or too simple. Workout Tracker fills th
 - 🤖 **Auto Progression** — App recommends weight increases or decreases based on last 3 sessions
 - 🔍 **Search & Sort** — Filter workouts by name, length, or date
 
+
+  ## 🧠 Engineering Highlights
+
+- Stateless authentication using JWT stored in HttpOnly cookies
+- Backend-driven workout progression logic based on last 3 sessions
+- Modular REST API design with clear separation of concerns
+- Dockerized full-stack setup for reproducible environment
+
 ---
 
 ## 📸 Screenshots
 
+### Dashboard — overview of workouts and quick actions
 ![Workouts](screenshots/dashboard.png)
+
+### Exercise statistics — weight and volume progression
 ![Statistics 1](screenshots/stats.png)
 ![Statistics 2](screenshots/recs.png)
 ![Workout details 1](screenshots/details.png)
