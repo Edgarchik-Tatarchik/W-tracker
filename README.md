@@ -1,3 +1,9 @@
+🌐 Live Demo
+https://w-trackerfrontend-production.up.railway.app/
+
+Hosted on Railway (free tier). May take 30–60 seconds to wake up if inactive.
+
+
 # 💪 Workout Tracker
 
 A full-stack fitness web application for logging workouts, tracking exercise progression, and visualizing training statistics.
@@ -120,3 +126,13 @@ workout-tracker/
 ## 👤 Author
 
 **Edgar** — [@Edgarchik-Tatarchik](https://github.com/Edgarchik-Tatarchik)
+
+
+
+⚠️ Disclaimer
+This project is a personal portfolio application built for learning and demonstration purposes. It is not intended for production use.
+
+No guarantees are made regarding uptime, data persistence, or security
+Do not store sensitive personal information
+The application may be taken down or reset at any time without notice
+Use at your own risk
